@@ -4,12 +4,13 @@ const operatorButtons = document.querySelectorAll('.operator');
 const numbers = Array.from(document.querySelectorAll('.num')).map(num => num.value);
 const operators = Array.from(document.querySelectorAll('.operator')).map(num => num.value);
 const equalsButton = document.querySelector('.equals');
-const allClearButton = document.querySelector('.all-clear');
+const clearAllButton = document.querySelector('.all-clear');
 const clearEntryButton = document.querySelector('.clear-entry');
 
 let currentNum = '';
 let lastNum = '';
 let operator = '';
+let needsNum = true;
 
 function addToScreen(num) {
   screenInput.innerHTML = num;
@@ -19,24 +20,35 @@ function handleClearAll() {
   screenInput.innerHTML = '';
   currentNum = '';
   lastNum = '';
-  operator = '';
+  needsNum = true;
+}
+
+function handleClearEntry() {
+  screenInput.innerHTML = '';
+  currentNum = '';
 }
 
 function handleNumber() {
   currentNum += this.value;
   addToScreen(currentNum);
+  needsNum = false;
+}
+
+function roundToTwo(num) {
+    return +(Math.round(num + "e+2")  + "e-2");
 }
 
 function calculate() {
-  console.log(`${lastNum}${operator}${currentNum}`);
-  return eval(`${lastNum}${operator}${currentNum}`);
+  let total = eval(`${lastNum}${operator}${currentNum}`);
+  return roundToTwo(total);
 }
 
 function handleOperator() {
   operator = this.value;
+  console.log("current",currentNum);
   if (lastNum === '') {
     lastNum = currentNum;
-  } else {
+  } else if (needsNum === false){
     lastNum = calculate();
   }
   currentNum = '';
@@ -50,13 +62,16 @@ function handleEquals() {
   } else {
     lastNum = calculate();
   }
+  needsNum = true;
   addToScreen(lastNum);
 }
 
 numberButtons.forEach(number => number.addEventListener('click', handleNumber));
 operatorButtons.forEach(operator => operator.addEventListener('click', handleOperator));
 equalsButton.addEventListener('click', handleEquals);
-allClearButton.addEventListener('click', handleClearAll);
+clearAllButton.addEventListener('click', handleClearAll);
+clearEntryButton.addEventListener('click', handleClearEntry);
+
 /*
 
 Input a number, display a number
