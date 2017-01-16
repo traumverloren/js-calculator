@@ -15,50 +15,58 @@ let needsNum = true;
 function addToScreen(num) {
   if (numTooLong(num)) {
     screenInput.innerHTML = "Too long";
-    clear();
+    reset();
   } else {
     screenInput.innerHTML = num;
   }
 }
 
-function clear() {
+// resets values to defaults
+function reset() {
   currentNum = '';
   lastNum = '';
   operator = '';
   needsNum = true;
 }
 
+// resets values and clears screen if AC pressed
 function handleClearAll() {
   addToScreen('');
-  clear();
+  reset();
 }
 
+// resets currentNum & clears screen if CE pressed
 function handleClearEntry() {
   addToScreen('');
   currentNum = '';
 }
 
+// takes care of adding number to screen & adding it to currentNum if num pressed
 function handleNumber() {
   currentNum += this.value;
   addToScreen(currentNum);
   needsNum = false;
 }
 
+// checks if a num entered or calculated is too big to display on screen
 function numTooLong(num) {
   // num needs to be a string not a num to check the length
   num = num.toString();
   return num.length > 10;
 }
 
+// rounds up to 2 decimal places
 function roundToTwo(num) {
     return +(Math.round(num + "e+2")  + "e-2");
 }
 
+// returns a calculated & rounded value
 function calculate() {
   let total = eval(`${lastNum}${operator}${currentNum}`);
   return roundToTwo(total);
 }
 
+// takes care of +,-,*,/ when pressed and either does calculation or does nothing if no currentNum
 function handleOperator() {
   operator = this.value;
   if (lastNum === '') {
@@ -71,6 +79,8 @@ function handleOperator() {
   needsNum = true;
 }
 
+// takes care when EQUALS pressed.
+// if has operator & currentNum, calculates, else does nothing, displays lastNum only
 function handleEquals() {
   if (lastNum === '') {
     lastNum = currentNum;
@@ -87,15 +97,3 @@ operatorButtons.forEach(operator => operator.addEventListener('click', handleOpe
 equalsButton.addEventListener('click', handleEquals);
 clearAllButton.addEventListener('click', handleClearAll);
 clearEntryButton.addEventListener('click', handleClearEntry);
-
-/*
-
-Input a number, display a number
-Add to that number until a operator is clicked
-
-after each operator, calculate new value.
-display new value on screen.
-
-when EQUALS clicked, display Final Value.
-
-*/
