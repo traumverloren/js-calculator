@@ -13,7 +13,16 @@ let operator = '';
 let needsNum = true;
 
 function addToScreen(num) {
-  screenInput.innerHTML = num;
+  if (numTooLong(num)) {
+    screenInput.innerHTML = "Too long";
+    currentNum = '';
+    lastNum = '';
+    operator = '';
+    needsNum = true;
+    return;
+  } else {
+    screenInput.innerHTML = num;
+  }
 }
 
 function handleClearAll() {
@@ -34,6 +43,12 @@ function handleNumber() {
   needsNum = false;
 }
 
+function numTooLong(num) {
+  // num needs to be a string not a num to check the length
+  num = num.toString();
+  return num.length > 10;
+}
+
 function roundToTwo(num) {
     return +(Math.round(num + "e+2")  + "e-2");
 }
@@ -45,7 +60,6 @@ function calculate() {
 
 function handleOperator() {
   operator = this.value;
-  console.log("current",currentNum);
   if (lastNum === '') {
     lastNum = currentNum;
   } else if (needsNum === false){
@@ -53,15 +67,19 @@ function handleOperator() {
   }
   currentNum = '';
   addToScreen(lastNum);
+  needsNum = true;
 }
 
 function handleEquals() {
+  console.log("operator", operator);
   if (lastNum === '') {
     lastNum = currentNum;
     currentNum = '';
-  } else {
+  } else if (operator !== '' && currentNum !== '') {
     lastNum = calculate();
   }
+  console.log('last', lastNum)
+
   needsNum = true;
   addToScreen(lastNum);
 }
