@@ -43,6 +43,7 @@ function handleClearEntry() {
 
 // takes care of adding number to screen & adding it to currentNum if num pressed
 function handleNumber() {
+  this.blur();
   currentNum += this.value;
   addToScreen(currentNum);
   needsNum = false;
@@ -68,6 +69,7 @@ function calculate() {
 
 // takes care of +,-,*,/ when pressed and either does calculation or does nothing if no currentNum
 function handleOperator() {
+  this.blur();
   operator = this.value;
   if (lastNum === '') {
     lastNum = currentNum;
@@ -82,6 +84,7 @@ function handleOperator() {
 // takes care when EQUALS pressed.
 // if has operator & currentNum, calculates, else does nothing, displays lastNum only
 function handleEquals() {
+  this.blur();
   if (lastNum === '') {
     lastNum = currentNum;
     currentNum = '';
