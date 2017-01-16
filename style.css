@@ -1,13 +1,14 @@
 html {
-  height: 95%;
+  height: 98%;
 }
 
 body {
-  height: 95%;
+  height: 98%;
   font-family: 'Press Start 2P', cursive;
 }
 
 .footer {
+  margin-top: 15px;
   font-size: 14px;
 }
 
@@ -37,7 +38,6 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  align-content: space-between;
   margin: auto;
   height: 350px;
   width: 250px;
@@ -111,4 +111,16 @@ button:active {
 
 .equals {
   height: 90px;
+}
+
+@media (max-height: 400px) {
+  .footer {
+    font-size: 0.8em;
+  }
+}
+
+@media (max-width: 320px) {
+  .footer {
+    font-size: 0.6em;
+  }
 }
