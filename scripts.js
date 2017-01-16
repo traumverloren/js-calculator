@@ -6,6 +6,7 @@ const operators = Array.from(document.querySelectorAll('.operator')).map(num => 
 const equalsButton = document.querySelector('.equals');
 const clearAllButton = document.querySelector('.all-clear');
 const clearEntryButton = document.querySelector('.clear-entry');
+const buttons = document.querySelectorAll('button');
 
 let currentNum = '';
 let lastNum = '';
@@ -69,7 +70,6 @@ function calculate() {
 
 // takes care of +,-,*,/ when pressed and either does calculation or does nothing if no currentNum
 function handleOperator() {
-  this.blur();
   operator = this.value;
   if (lastNum === '') {
     lastNum = currentNum;
@@ -84,7 +84,6 @@ function handleOperator() {
 // takes care when EQUALS pressed.
 // if has operator & currentNum, calculates, else does nothing, displays lastNum only
 function handleEquals() {
-  this.blur();
   if (lastNum === '') {
     lastNum = currentNum;
     currentNum = '';
@@ -100,3 +99,4 @@ operatorButtons.forEach(operator => operator.addEventListener('click', handleOpe
 equalsButton.addEventListener('click', handleEquals);
 clearAllButton.addEventListener('click', handleClearAll);
 clearEntryButton.addEventListener('click', handleClearEntry);
+buttons.forEach(button => button.addEventListener('mousedown', (e => e.preventDefault())));
