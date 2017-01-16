@@ -15,25 +15,26 @@ let needsNum = true;
 function addToScreen(num) {
   if (numTooLong(num)) {
     screenInput.innerHTML = "Too long";
-    currentNum = '';
-    lastNum = '';
-    operator = '';
-    needsNum = true;
-    return;
+    clear();
   } else {
     screenInput.innerHTML = num;
   }
 }
 
-function handleClearAll() {
-  screenInput.innerHTML = '';
+function clear() {
   currentNum = '';
   lastNum = '';
+  operator = '';
   needsNum = true;
 }
 
+function handleClearAll() {
+  addToScreen('');
+  clear();
+}
+
 function handleClearEntry() {
-  screenInput.innerHTML = '';
+  addToScreen('');
   currentNum = '';
 }
 
@@ -71,15 +72,12 @@ function handleOperator() {
 }
 
 function handleEquals() {
-  console.log("operator", operator);
   if (lastNum === '') {
     lastNum = currentNum;
     currentNum = '';
   } else if (operator !== '' && currentNum !== '') {
     lastNum = calculate();
   }
-  console.log('last', lastNum)
-
   needsNum = true;
   addToScreen(lastNum);
 }
